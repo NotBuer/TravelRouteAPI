@@ -14,6 +14,6 @@ public interface ITravelRouteCommandHandler
         CancellationToken cancellationToken = default);
     
     public Task HandleDelete(
-        TravelRouteRequest request, 
+        TravelRouteDeleteRequest request, 
         CancellationToken cancellationToken = default);
 }

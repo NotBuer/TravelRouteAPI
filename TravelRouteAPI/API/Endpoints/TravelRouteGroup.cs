@@ -10,7 +10,6 @@ internal static class TravelRouteGroup
     
     internal static void MapTravelRouteGroup(this WebApplication app)
     {
-        // TODO: Create
         app.MapPost(BaseRoute, 
             async (
                 ITravelRouteCommandHandler travelRouteCommandHandler, 
@@ -20,11 +19,10 @@ internal static class TravelRouteGroup
                 var response = await travelRouteCommandHandler.HandleAdd(request, cancellationToken);
                 
                 return response == null ? 
-                    Results.InternalServerError() : 
+                    Results.UnprocessableEntity() : 
                     Results.Created(BaseRoute, response);
             });
-
-        // TODO: Update
+        
         app.MapPut(BaseRoute,
             async (
                 ITravelRouteCommandHandler travelRouteCommandHandler,
@@ -36,10 +34,15 @@ internal static class TravelRouteGroup
                 return Results.Ok(response);
             });
 
-        // TODO: Delete
-
-
-
+        app.MapDelete(BaseRoute,
+            async (
+                ITravelRouteCommandHandler TravelRouteCommandHandler,
+                [FromBody] TravelRouteDeleteRequest request,
+                CancellationToken cancellationToken) =>
+            {
+                await TravelRouteCommandHandler.HandleDelete(request, cancellationToken);
+                return Results.Ok();
+            });
 
 
         // TODO: Get's
