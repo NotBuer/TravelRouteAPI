@@ -25,7 +25,6 @@ dotnet ef database update
 * Este segundo comando vai aplicar o migration ja existente ao seu banco de dados. *
 
 Vai criar e atualizar o schema do seu banco corretamente, já incluindo DataSeeding inicial.
-(Necessário alterar `appsettings.Dev.json` passando a string de conexão do seu usuário no postgreSQL)
 
 ### Informações Adicionais
 
