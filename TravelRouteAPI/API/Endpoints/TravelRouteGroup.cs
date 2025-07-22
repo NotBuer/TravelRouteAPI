@@ -54,7 +54,7 @@ internal static class TravelRouteGroup
                 [FromQuery] TravelPoint destination,
                 CancellationToken cancellationToken) =>
             {
-                await travelRouteQueryHandler.HandleGetByOriginAndDestination(origin, destination, cancellationToken);
+                await travelRouteQueryHandler.HandleGetRouteByLowestPrice(origin, destination, cancellationToken);
             });
         
         // app.MapGet($"{BaseRoute}/get-route-by-shortest-distance",

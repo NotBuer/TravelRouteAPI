@@ -12,8 +12,22 @@ public class RouteFinder
     {
         var travelRoutePointsList = new List<TravelPoint>();
         var priceSum = 0m;
-        
-        
+
+        var startPoint = availableRoutes.First(x => x.Origin == origin);
+        var endPoint = availableRoutes.First(x => x.Destination == destination);
+        var currentPoint = startPoint;
+
+        while (currentPoint != endPoint)
+        {
+            TravelRoute? nextPoint = null;
+            
+            var possibleNextPoints = availableRoutes.Where(x => x.Origin == currentPoint.Destination).ToList();
+            nextPoint = possibleNextPoints.Count > 1 ? possibleNextPoints.MinBy(x => x.Price) : possibleNextPoints.First();
+
+            travelRoutePointsList.Add(currentPoint.Origin);
+            priceSum += currentPoint.Price;
+            currentPoint = nextPoint;
+        }
 
         return new RouteFoundValueObject
         {

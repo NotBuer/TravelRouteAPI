@@ -5,7 +5,7 @@ namespace Application.QueryHandler;
 
 public interface ITravelRouteQueryHandler
 {
-    public Task<RouteFoundResponse> HandleGetByOriginAndDestination(
+    public Task<RouteFoundResponse> HandleGetRouteByLowestPrice(
         TravelPoint origin,
         TravelPoint destination,
         CancellationToken cancellationToken = default);
