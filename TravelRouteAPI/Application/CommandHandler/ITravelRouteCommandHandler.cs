@@ -6,7 +6,7 @@ namespace Application.CommandHandler;
 public interface ITravelRouteCommandHandler
 {
     public Task<TravelRouteResponse?> HandleAdd(
-        TravelRouteRequest request, 
+        TravelRouteAddRequest request, 
         CancellationToken cancellationToken = default);
     
     public Task<TravelRouteResponse> HandleUpdate(

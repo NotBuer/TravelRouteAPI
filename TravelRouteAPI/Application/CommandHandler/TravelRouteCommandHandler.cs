@@ -11,7 +11,7 @@ public class TravelRouteCommandHandler(AppDbContext context) : ITravelRouteComma
     private readonly DbSet<TravelRoute> _dbSet = context.Set<TravelRoute>();
     
     public async Task<TravelRouteResponse?> HandleAdd(
-        TravelRouteRequest request,
+        TravelRouteAddRequest request,
         CancellationToken cancellationToken)
     {
         var entity = _dbSet.Add(new TravelRoute

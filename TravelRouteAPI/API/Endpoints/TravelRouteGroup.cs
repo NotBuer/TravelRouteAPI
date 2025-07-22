@@ -1,6 +1,7 @@
 using Application.CommandHandler;
 using Application.QueryHandler;
 using Application.Request;
+using Application.Response;
 using Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,39 +13,46 @@ internal static class TravelRouteGroup
     
     internal static void MapTravelRouteGroup(this WebApplication app)
     {
-        app.MapPost(BaseRoute, 
-            async (
-                ITravelRouteCommandHandler travelRouteCommandHandler, 
-                [FromBody] TravelRouteRequest request, 
-                CancellationToken cancellationToken) =>
-            {
-                var response = await travelRouteCommandHandler.HandleAdd(request, cancellationToken);
-                
-                return response == null ? 
-                    Results.UnprocessableEntity() : 
-                    Results.Created(BaseRoute, response);
-            });
-        
-        app.MapPut(BaseRoute,
-            async (
-                ITravelRouteCommandHandler travelRouteCommandHandler,
-                [FromBody] TravelRouteUpdateRequest request,
-                CancellationToken cancellationToken) =>
-            {
-                var response = await travelRouteCommandHandler.HandleUpdate(request, cancellationToken);
+        app.MapPost(BaseRoute,
+                async (
+                    ITravelRouteCommandHandler travelRouteCommandHandler,
+                    [FromBody] TravelRouteAddRequest request,
+                    CancellationToken cancellationToken) =>
+                {
+                    var response = await travelRouteCommandHandler.HandleAdd(request, cancellationToken);
 
-                return Results.Ok(response);
-            });
+                    return response == null ? Results.UnprocessableEntity() : Results.Created(BaseRoute, response);
+                })
+            .Accepts<TravelRouteAddRequest>("application/json")
+            .Produces<TravelRouteResponse>(201)
+            .WithDescription("Creates a new Travel Route");
+
+        app.MapPut(BaseRoute,
+                async (
+                    ITravelRouteCommandHandler travelRouteCommandHandler,
+                    [FromBody] TravelRouteUpdateRequest request,
+                    CancellationToken cancellationToken) =>
+                {
+                    var response = await travelRouteCommandHandler.HandleUpdate(request, cancellationToken);
+
+                    return Results.Ok(response);
+                })
+            .Accepts<TravelRouteUpdateRequest>("application/json")
+            .Produces<TravelRouteResponse>()
+            .WithDescription("Updates an existing Travel Route");
 
         app.MapDelete(BaseRoute,
-            async (
-                ITravelRouteCommandHandler travelRouteCommandHandler,
-                [FromBody] TravelRouteDeleteRequest request,
-                CancellationToken cancellationToken) =>
-            {
-                await travelRouteCommandHandler.HandleDelete(request, cancellationToken);
-                return Results.Ok();
-            });
+                async (
+                    ITravelRouteCommandHandler travelRouteCommandHandler,
+                    [FromBody] TravelRouteDeleteRequest request,
+                    CancellationToken cancellationToken) =>
+                {
+                    await travelRouteCommandHandler.HandleDelete(request, cancellationToken);
+                    return Results.Ok();
+                })
+            .Accepts<TravelRouteDeleteRequest>("application/json")
+            .Produces(200)
+            .WithDescription("Deletes an existing Travel Route");
 
 
         app.MapGet($"{BaseRoute}/get-route-by-lowest-value",
@@ -54,17 +62,12 @@ internal static class TravelRouteGroup
                 [FromQuery] TravelPoint destination,
                 CancellationToken cancellationToken) =>
             {
-                await travelRouteQueryHandler.HandleGetRouteByLowestPrice(origin, destination, cancellationToken);
-            });
-        
-        // app.MapGet($"{BaseRoute}/get-route-by-shortest-distance",
-        //     async (
-        //         ITravelRouteQueryHandler travelRouteQueryHandler,
-        //         [FromQuery] TravelPoint origin,
-        //         [FromQuery] TravelPoint destination,
-        //         CancellationToken cancellationToken) =>
-        //     {
-        //         throw new NotImplementedException();
-        //     });
+                var response = await travelRouteQueryHandler.HandleGetRouteByLowestPrice(
+                    origin, destination, cancellationToken);
+                
+                return Results.Ok(response);
+            })
+            .Produces<RouteFoundResponse>()
+            .WithDescription("Gets the wanted route with the lowest price");
     }
 }

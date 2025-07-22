@@ -2,7 +2,7 @@ using Domain.Enums;
 
 namespace Application.Request;
 
-public record TravelRouteRequest
+public record TravelRouteAddRequest
 {
     public TravelPoint Origin { get; set; }
     public TravelPoint Destination { get; set; }
