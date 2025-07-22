@@ -25,7 +25,8 @@ internal static class TravelRouteGroup
                 })
             .Accepts<TravelRouteAddRequest>("application/json")
             .Produces<TravelRouteResponse>(201)
-            .WithDescription("Creates a new Travel Route");
+            .Produces(422)
+            .WithDescription("Cria uma nova rota de viagem");
 
         app.MapPut(BaseRoute,
                 async (
@@ -39,7 +40,7 @@ internal static class TravelRouteGroup
                 })
             .Accepts<TravelRouteUpdateRequest>("application/json")
             .Produces<TravelRouteResponse>()
-            .WithDescription("Updates an existing Travel Route");
+            .WithDescription("Atualiza uma rota de viagem existente");
 
         app.MapDelete(BaseRoute,
                 async (
@@ -52,7 +53,7 @@ internal static class TravelRouteGroup
                 })
             .Accepts<TravelRouteDeleteRequest>("application/json")
             .Produces(200)
-            .WithDescription("Deletes an existing Travel Route");
+            .WithDescription("Delete uma rota de viagem existente");
 
 
         app.MapGet($"{BaseRoute}/get-route-by-lowest-value",
@@ -68,6 +69,6 @@ internal static class TravelRouteGroup
                 return Results.Ok(response);
             })
             .Produces<RouteFoundResponse>()
-            .WithDescription("Gets the wanted route with the lowest price");
+            .WithDescription("Obtém uma rota de viagem com o menor valor");
     }
 }
