@@ -22,7 +22,7 @@ public class RouteFinderTests
             TravelPoint.CDG
         };
         
-        var result = RouteFinder.FindRouteByLowestPrice(DataUtils.AvailableRoutes, origin, destination);
+        var result = RouteFinder.FindRouteByLowestPrice(MockDataUtils.AvailableRoutes, origin, destination);
         
         Assert.Equal(expectedPrice, result.FinalPrice);
         Assert.Equal(expectedRoutes, result.TravelRoutePoints);
@@ -42,7 +42,7 @@ public class RouteFinderTests
             TravelPoint.SCL
         };
         
-        var result = RouteFinder.FindRouteByLowestPrice(DataUtils.AvailableRoutes, origin, destination);
+        var result = RouteFinder.FindRouteByLowestPrice(MockDataUtils.AvailableRoutes, origin, destination);
         
         Assert.Equal(expectedPrice, result.FinalPrice);
         Assert.Equal(expectedRoutes, result.TravelRoutePoints);

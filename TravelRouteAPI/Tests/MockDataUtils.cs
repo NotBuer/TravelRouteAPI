@@ -3,7 +3,7 @@ using Domain.Enums;
 
 namespace Tests;
 
-internal static class DataUtils
+internal static class MockDataUtils
 {
     // Exatamente na mesma ordem do que foi pedido no requisito.
     internal static readonly List<TravelRoute> AvailableRoutes =
