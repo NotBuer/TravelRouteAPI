@@ -1,15 +1,12 @@
-using Application.Request;
 using Application.Response;
+using Domain.Enums;
 
 namespace Application.QueryHandler;
 
 public interface ITravelRouteQueryHandler
 {
-    public Task<TravelRouteResponse> HandleGet(
-        TravelRouteRequest request, 
-        CancellationToken cancellationToken = default);
-    
-    public Task<TravelRouteResponse> HandleGetByOrigin(
-        TravelRouteRequestByOrigin request, 
+    public Task<RouteFoundResponse> HandleGetByOriginAndDestination(
+        TravelPoint origin,
+        TravelPoint destination,
         CancellationToken cancellationToken = default);
 }

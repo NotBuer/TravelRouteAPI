@@ -1,5 +1,7 @@
 using Application.CommandHandler;
+using Application.QueryHandler;
 using Application.Request;
+using Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Endpoints;
@@ -36,15 +38,33 @@ internal static class TravelRouteGroup
 
         app.MapDelete(BaseRoute,
             async (
-                ITravelRouteCommandHandler TravelRouteCommandHandler,
+                ITravelRouteCommandHandler travelRouteCommandHandler,
                 [FromBody] TravelRouteDeleteRequest request,
                 CancellationToken cancellationToken) =>
             {
-                await TravelRouteCommandHandler.HandleDelete(request, cancellationToken);
+                await travelRouteCommandHandler.HandleDelete(request, cancellationToken);
                 return Results.Ok();
             });
 
 
-        // TODO: Get's
+        app.MapGet($"{BaseRoute}/get-route-by-lowest-value",
+            async (
+                ITravelRouteQueryHandler travelRouteQueryHandler,
+                [FromQuery] TravelPoint origin,
+                [FromQuery] TravelPoint destination,
+                CancellationToken cancellationToken) =>
+            {
+                await travelRouteQueryHandler.HandleGetByOriginAndDestination(origin, destination, cancellationToken);
+            });
+        
+        // app.MapGet($"{BaseRoute}/get-route-by-shortest-distance",
+        //     async (
+        //         ITravelRouteQueryHandler travelRouteQueryHandler,
+        //         [FromQuery] TravelPoint origin,
+        //         [FromQuery] TravelPoint destination,
+        //         CancellationToken cancellationToken) =>
+        //     {
+        //         throw new NotImplementedException();
+        //     });
     }
 }
