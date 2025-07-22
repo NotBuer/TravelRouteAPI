@@ -28,14 +28,12 @@ internal static class TravelRouteGroup
         app.MapPut(BaseRoute,
             async (
                 ITravelRouteCommandHandler travelRouteCommandHandler,
-                [FromBody] TravelRouteRequest request,
+                [FromBody] TravelRouteUpdateRequest request,
                 CancellationToken cancellationToken) =>
             {
                 var response = await travelRouteCommandHandler.HandleUpdate(request, cancellationToken);
 
-                return response == null ? 
-                    Results.InternalServerError() : 
-                    Results.Ok(response);
+                return Results.Ok(response);
             });
 
         // TODO: Delete

@@ -41,11 +41,38 @@ public class TravelRouteCommandHandler(AppDbContext context) : ITravelRouteComma
             : null;
     }
 
-    public async Task<TravelRouteResponse?> HandleUpdate(
-        TravelRouteRequest request,
+    public async Task<TravelRouteResponse> HandleUpdate(
+        TravelRouteUpdateRequest request,
         CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var entity = await _dbSet.FindAsync([request.Id], cancellationToken);
+
+        if (entity is null)
+            throw new InvalidOperationException(
+                $"Operation: '{nameof(TravelRouteCommandHandler)}.{nameof(HandleUpdate)}()' entity with id: {request.Id} not found!");
+        
+        entity.Origin = request.Origin;
+        entity.Destination = request.Destination;
+        entity.Price = request.Price;
+
+        _dbSet.Update(entity);
+        
+        try
+        {
+            await context.SaveChangesAsync(cancellationToken);
+        }
+        catch (DbUpdateException _)
+        {
+            throw new InvalidOperationException(
+                $"Operation: '{nameof(TravelRouteCommandHandler)}.{nameof(HandleUpdate)}()' failed to save changes!");
+        }
+
+        return new TravelRouteResponse
+        {
+            Origin = entity.Origin,
+            Destination = entity.Destination,
+            Price = entity.Price
+        };
     }
 
     public async Task HandleDelete(
