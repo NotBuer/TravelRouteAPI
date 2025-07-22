@@ -1,11 +1,15 @@
 # TravelRouteAPI
 
-### Banco de Dados
+### Visão Geral
 
 O projeto utiliza/contém: 
 - **.NET 9 Minimal API** como design de API.
+- **Swagger** como UI e documentação da API.
 - **EFCore 9.0.7** como ORM.
 - **PostgreSQL** como banco de dados.
+- **Clean Architecture** como design pattern.
+- **Domain Driven Design** como design pattern.
+- **CQS/CQRS** como design pattern.
 
 
 ### Executando as Migrações
