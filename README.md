@@ -10,9 +10,15 @@ O projeto utiliza/contém:
 
 ### Executando as Migrações
 
+* (Necessário inserir/alterar `appsettings.Dev.json` passando a string de conexão do seu usuário no postgreSQL) *
+```bash
+"ConnectionStrings": {
+    "AppDbContext": "Host=localhost;Port=5432;Database=TravelRouteDb;Username=[username];Password=[password];IncludeErrorDetail=True"
+}
+```  
+
 Para criar o banco de dados e executar as migrações, a partir da raiz do projeto (onde está o arquivo .sln), navegue até a pasta `Infrastructure` e execute:
 
-* (Necessário alterar `appsettings.Dev.json` passando a string de conexão do seu usuário no postgreSQL) *
 
 ```bash
 $env:ASPNETCORE_ENVIRONMENT = "Dev"
